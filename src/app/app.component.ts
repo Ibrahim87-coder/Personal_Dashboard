@@ -1,4 +1,4 @@
-import { animate, query, style, transition, trigger } from '@angular/animations';
+import { animate, group, query, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -8,51 +8,92 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./app.component.scss'],
   animations:[
     trigger('routeAnim',[
-       transition('* => *',[
-         style({
-           position:'relative'
-         }),
+      transition(':increment',[
+          style({
+            position:'relative',
+            overflow:'hidden'
+            }),
 
-        query(':enter,:leave',[
+            query(':enter,:leave',[
+            style({
+              position:'absolute',
+              top:0,
+              left:0,
+              width:'100%',
+              height:'100%',
+              display:'block'
+            })
+            ] , { optional : true}),
+
+             //  query(':enter',[
+             //    style({ opacity:0 })
+             //  ], { optional:true}),
+
+             group([ 
+              query(':leave',[
+                animate('200ms ease-in',style({
+                  opacity:0,
+                  transform:'translateX(-50px)'
+                }))
+              ], {optional:true}),
+              
+              query(':enter',[
+                style({
+                  transform:'translateX(50px)',
+                  opacity:0
+                }),
+                animate('250ms 120ms ease-out',style({
+                  opacity:1,
+                  transform:'translateX(0)'
+                }))
+              ],{optional:true})
+            
+          ])
+       ]),
+
+       transition(':decrement',[
+        style({
+          position:'relative',
+          overflow:'hidden'
+          }),
+
+          query(':enter,:leave',[
           style({
             position:'absolute',
             top:0,
             left:0,
-            width:'100%'
+            width:'100%',
+            height:'100%',
+            display:'block'
           })
+          ] , { optional : true}),
 
-        ] , { optional : true}),
-         query(':enter',[
-           style({
-             opacity:0,
-             height:'100%'
-           })
+           //  query(':enter',[
+           //    style({ opacity:0 })
+           //  ], { optional:true}),
 
-         ], { optional:true}),
-
-        query(':leave',[
-          style({
-            display:'block',
-            height:'100%'
-          }),
-          animate(1000,style({
-            opacity:0
-          }))
-        ], {optional:true}),
-        
-
-
-        query(':enter',[
-          style({
-            opacity:0,
-            display:'block',
-            height:'100%'
-          }),
-          animate(1000,style({
-            opacity:1
-          }))
-        ],{optional:true})
-      ])
+           group([ 
+            query(':leave',[
+              animate('200ms ease-in',style({
+                opacity:0,
+                transform:'translateX(+50px)'
+              }))
+            ], {optional:true}),
+            
+            query(':enter',[
+              style({
+                transform:'translateX(-50px)',
+                opacity:0
+              }),
+              animate('250ms 120ms ease-out',style({
+                opacity:1,
+                transform:'translateX(0)'
+              }))
+            ],{optional:true})
+          
+        ])
+     ])
+       
     ])
   ]
 })
@@ -60,7 +101,7 @@ export class AppComponent {
   title = 'personal-dashboard';
 
   prepareRoute(outlet:RouterOutlet){
-    if(outlet.isActivated) return outlet.activatedRoute.snapshot.url
+    if(outlet.isActivated) return outlet.activatedRouteData['tab']
     else return ;
   }
 
