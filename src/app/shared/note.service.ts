@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Note } from './node.model';
+import { Note } from './note.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NoteService {
-  notes: Note[] = [];
+  notes: Note[] = [
+    new Note('Test title' , 'this is a test content'),
+    new Note('second test','adafsafs')
+  ];
+
   constructor() {}
+
   getNotes() {
     return this.notes;
   }
+  
   getNote(id: string) {
     return this.notes.find((n) => n.id === id);
   }
