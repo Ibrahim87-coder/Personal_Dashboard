@@ -8,7 +8,7 @@ import { Note } from '../shared/note.model';
 })
 export class NoteCardComponent implements OnInit {
 
-  @Input() note?:Note
+  @Input() note?:Note;
   
   constructor() { }
 

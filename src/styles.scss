@@ -63,7 +63,7 @@ h2 {
 }
 .textbox,
 .textarea{
-  margin-bottom: 20px;
+  
   font-size: 18px;
   font-family: inherit;
   width: 100%;
@@ -88,4 +88,14 @@ h2 {
   resize: vertical;
   min-height: 100px;
 
+}
+.form-field{
+  margin-bottom: 20px;
+  p{
+    color: red;
+    font-weight: bold;
+  }
+}
+a{
+  text-decoration: none;
 }
