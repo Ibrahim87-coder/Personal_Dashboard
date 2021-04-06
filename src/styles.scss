@@ -49,6 +49,7 @@ h2 {
 }
 .btns-container {
   margin-top: 20px;
+  gap:12px;
   display: flex;
   &.btns-centered {
     justify-content: center;

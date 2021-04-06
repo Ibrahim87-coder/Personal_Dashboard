@@ -11,24 +11,23 @@ import { NoteService } from '../shared/note.service';
 })
 export class EditNoteComponent implements OnInit {
 
+  note?:Note
   constructor(private noteService : NoteService ,private route:ActivatedRoute, private router : Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((paramMap: ParamMap)=>{
       const idParam = paramMap.get('id')
-      console.log(idParam)
-
-      const note = this.noteService.getNote(idParam!);
-      console.log("This is the note");
-      console.log(note);
-
+      this.note = this.noteService.getNote(idParam!);
     })
   }
   onFormSubmit(form: NgForm){
 
-    if(form.invalid) return alert("Please enter a Note Title ( !! Title must be at least 3 characters ) !!")
-    const note = new Note(form.value.title,form.value.content)
-    this.noteService.addNote(note)
+    this.noteService.updateNote(this.note?.id!,form.value)
+    this.router.navigateByUrl("/notes")
+  }
+
+  deleteNote(){
+    this.noteService.deleteNote(this.note?.id!)
     this.router.navigateByUrl("/notes")
   }
 }
