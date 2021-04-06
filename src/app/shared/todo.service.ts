@@ -33,10 +33,9 @@ export class TodoService {
   }
 
   DeleteTodo(id:string){
-    const index = this.todos.findIndex(t=>t.id===id)
+    const index = this.todos.findIndex((t)=>t.id===id)
     if(index == -1) return
-
-    this.todos.splice(index,-1)
+    this.todos.splice(index,1)
 
   }
 }

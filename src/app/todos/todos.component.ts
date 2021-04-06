@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Todo } from '../shared/todo.model';
 import { TodoService } from '../shared/todo.service';
 
@@ -11,14 +12,20 @@ export class TodosComponent implements OnInit {
 
   todos:Todo[]=[]
 
-  constructor(private todoService:TodoService) { }
+  constructor(private todoService:TodoService,private router:Router) { }
 
   ngOnInit(): void {
     this.todos = this.todoService.getTodos()
-
   }
   toggleCompleted(todo:Todo){
     this.todoService.updateTodo(todo?.id!,{ completed:!todo?.completed})
+  }
+
+  onEditClick(todo:Todo){
+    this.router.navigate(['/todos',todo.id])
+  }
+  onDeleteClick(todo:Todo){
+    this.todoService.DeleteTodo(todo?.id!)
   }
 
 }

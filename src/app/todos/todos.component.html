@@ -5,6 +5,8 @@
      *ngFor="let todo of todos"
       (click)="toggleCompleted(todo)"
       [todo]="todo"
+      (editClick)="onEditClick(todo)"
+      (DeleteClick)="onDeleteClick(todo)"
     ></app-todo-item>  
 
     <div class="btns-container btns-centered">
