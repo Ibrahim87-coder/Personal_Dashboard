@@ -8,8 +8,9 @@ import { Bookmark } from '../shared/bookmark.model';
 })
 export class BookmarkTileComponent implements OnInit {
 
-  @Input() bookmark?:Bookmark
+  @Input() bookmark?:Bookmark; 
 
+  faviconError?:boolean
   tileIconSrc?:string
   constructor() { }
 
