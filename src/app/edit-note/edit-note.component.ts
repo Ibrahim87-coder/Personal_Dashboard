@@ -21,7 +21,7 @@ export class EditNoteComponent implements OnInit {
     })
   }
   onFormSubmit(form: NgForm){
-
+    if(form.invalid) return
     this.noteService.updateNote(this.note?.id!,form.value)
     this.router.navigateByUrl("/notes")
   }
