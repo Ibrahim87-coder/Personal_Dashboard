@@ -1,4 +1,6 @@
 <div class="bookmark-tile">
-  <img src="http://google.com/favicon.ico" alt="" />
-  <a href="http://google.com" style="text-decoration: none;" class="tile-text">Google</a >
+  <div class="tile-icon">
+    <img [src]="tileIconSrc" alt="" />  
+  </div>
+    <p class="tile-text">{{bookmark?.name}}</p>
 </div>
