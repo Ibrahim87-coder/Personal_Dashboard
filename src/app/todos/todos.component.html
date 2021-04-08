@@ -3,7 +3,7 @@
 
     <app-todo-item
       @todoItemAnim
-     *ngFor="let todo of todos"
+     *ngFor="let todo of todos;"
       (click)="toggleCompleted(todo)"
       [todo]="todo"
       (editClick)="onEditClick(todo)"

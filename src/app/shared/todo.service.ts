@@ -1,41 +1,64 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
 import { Todo } from './todo.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class TodoService {
+export class TodoService implements OnDestroy{
+  todos: Todo[] = [];
+  
 
-
-
-  todos:Todo[]=[
-    new Todo('this is a test'),
-    new Todo('another one')
-  ]
-
-  constructor() { }
-
-  getTodos(){
-    return this.todos
+  ngOnDestroy() {
+    if (this.storageListenSub) this.storageListenSub.unsubscribe();
   }
 
-  getTodo(id:string){
-    return this.todos.find(t=>t.id === id)
+  storageListenSub?: Subscription;
+  constructor() {
+    this.loadState();
+    this.storageListenSub = fromEvent(window, 'storage').subscribe((event?:any) => {
+      if (event?.key === 'todos') this.loadState();
+    });
   }
 
-  addTodo(todo:Todo){
-    this.todos.push(todo)
+  getTodos() {
+    return this.todos;
   }
 
-  updateTodo(id:string,updateTodoFields:Partial<Todo>){
-    const todo = this.getTodo(id)
-    Object.assign(todo,updateTodoFields)
+  getTodo(id: string) {
+    return this.todos.find((t) => t.id === id);
   }
 
-  DeleteTodo(id:string){
-    const index = this.todos.findIndex((t)=>t.id===id)
-    if(index == -1) return
-    this.todos.splice(index,1)
+  addTodo(todo: Todo) {
+    this.todos.push(todo);
+    this.saveState();
+  }
 
+  updateTodo(id: string, updateTodoFields: Partial<Todo>) {
+    const todo = this.getTodo(id);
+    Object.assign(todo, updateTodoFields);
+    this.saveState();
+  }
+
+  DeleteTodo(id: string) {
+    const index = this.todos.findIndex((t) => t.id === id);
+    if (index == -1) return;
+    this.todos.splice(index, 1);
+    this.saveState();
+  }
+
+  saveState() {
+    localStorage.setItem('todos', JSON.stringify(this.todos));
+  }
+
+  loadState() {
+    try {
+      const todosInStorage = JSON.parse(localStorage.getItem('todos')!);
+      this.todos.length = 0;
+      this.todos.push(...todosInStorage);
+    } catch (e) {
+      console.log('error');
+      console.log(e);
+    }
   }
 }
