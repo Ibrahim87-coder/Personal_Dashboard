@@ -1,7 +1,9 @@
 import {animate,group,query,style,transition,trigger,}
 from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Observable, timer } from 'rxjs';
+import {map} from 'rxjs/operators'
 
 const BaseStyle = style({
   position: 'absolute',
@@ -23,13 +25,7 @@ const BaseStyle = style({
           position: 'relative',
           overflow: 'hidden',
         }),
-
         query(':enter,:leave', [BaseStyle], { optional: true }),
-
-        //  query(':enter',[
-        //    style({ opacity:0 })
-        //  ], { optional:true}),
-
         group([
           query(
             ':leave',
@@ -228,7 +224,17 @@ const BaseStyle = style({
     ]),
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+
+  dataTime?: Date;
+
+  ngOnInit() {
+    setInterval(() => {
+      this.dataTime = new Date();
+    }, 1);
+  }
+
+  
   bgs?: string[] = [
     'https://images.unsplash.com/photo-1616626578044-e5689b3aa390?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=1080&ixlib=rb-1.2.1&q=80&w=1920',
   ];
